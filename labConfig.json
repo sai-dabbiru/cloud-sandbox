@@ -1,0 +1,67 @@
+{
+  "labs": {
+    "ec2": {
+      "label": "EC2 Instance Lab",
+      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/create/ec2-sandbox",
+      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/ec2-sandbox",
+      "checkUrl": "https://tjq4bnlizrzlq732e3btuizdya0twvvv.lambda-url.us-east-1.on.aws/",
+      "duration": 3600,
+      "region" : "us-east-1",
+      "rolearn" : "arn:aws:iam::841162700636:role/CS_EC2_Demo1_GLX",
+      "configuration": {
+    "tagname": "<username>",
+    "ami" : "Amazon linux(Free tier)",
+    "instance" : "t2-micro or t3-micro",
+    "keypair" : "default",
+    "vpc" : "training L&D",
+    "securitygroup" : "CS_EC2_Demo1_GLX"
+
+
+    }
+    },
+    "loadbalancer": {
+      "label": "Load Balancer Lab",
+      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/demo-1",
+      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/demo-1",
+      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/demo-1",
+      "duration": 3600,
+      "region" : "us-west-1",
+        "rolearn" : "arn:aws:iam::841162700636:role/CS_EC2_Demo1_GLX",
+      "configuration": {
+    "tagname": "<username>",
+    "ami" : "Amazon linux(Free tier)",
+    "instance" : "t2-micro or t3-micro",
+    "keypair" : "default",
+    "vpc" : "training",
+    "securitygroup" : "CS_EC2_Demo1_GLX"
+
+
+    }
+    },
+
+       "EKS": {
+      "label": "EKS Lab",
+      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/demo-1",
+      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/demo-1",
+      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/demo-1",
+      "duration": 3600,
+        "rolearn" : "arn:aws:iam::841162700636:role/CS_EC2_Demo1_GLX",
+      "region" : "us-west-1",
+      "configuration": {
+    "tagname": "<username>",
+    "ami" : "Amazon linux(Free tier)",
+    "instance" : "t2-micro or t3-micro",
+    "keypair" : "default",
+    "vpc" : "training L&D",
+    "securitygroup" : "CS_EC2_Demo1_GLX"
+
+
+    }
+    }
+  }
+
+  
+   
+   
+  }
+
