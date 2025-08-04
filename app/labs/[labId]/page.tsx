@@ -1,7 +1,7 @@
 // app/labs/[labId]/page.tsx
 
 import { notFound } from 'next/navigation'
-import LabInterface from '../../../Lab-interface'
+import LabInterface from '../../../lab-interface'
 import labConfig from '../../../labConfig.json'
 
 

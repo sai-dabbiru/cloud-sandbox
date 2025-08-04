@@ -1,7 +1,7 @@
 "use client"
 
-import Component from "../Lab-interface"
-import LabInterface from '../Lab-interface'
+
+import LabInterface from '../lab-interface'
 import { redirect } from 'next/navigation'
 export default function Page() {
   
