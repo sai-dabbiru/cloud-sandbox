@@ -68,7 +68,7 @@ interface LabResponse {
 }
 
 export default function Component({selectedLab} : LabRunnerProps) {
-  
+  debugger;
   const currentLab = labConfig.labs[selectedLab]
 const [showAwsLink, setShowAwsLink] = useState(false); // or true
 
@@ -111,21 +111,75 @@ const [showAwsLink, setShowAwsLink] = useState(false); // or true
     return new Date(dateString).toLocaleString()
   }
 
+  // const copyToClipboard = async (text: string, label: string) => {
+  //   console.log(`Attempting to copy: ${label} →`, text); 
+  //   try {
+  //     await navigator.clipboard.writeText(text)
+  //     toast({
+  //       title: "Copied!",
+  //       description: `${label} copied to clipboard`,
+  //     })
+  //   } catch (err) {
+  //     toast({
+  //       title: "Copy failed",
+  //       description: "Failed to copy to clipboard",
+  //       variant: "destructive",
+  //     })
+  //   }
+  // }
+
   const copyToClipboard = async (text: string, label: string) => {
+  if (!text) {
+    toast({
+      title: "Nothing to copy",
+      description: `No ${label} found.`,
+      variant: "destructive",
+    });
+    return;
+  }
+
+  try {
+    // Try modern clipboard API
+    await navigator.clipboard.writeText(text);
+    toast({
+      title: "Copied!",
+      description: `${label} copied to clipboard`,
+    });
+  } catch (err) {
+    // Fallback for older browsers or sandboxed production
+    console.warn("Clipboard API failed, using fallback. Reason:", err);
+
     try {
-      await navigator.clipboard.writeText(text)
-      toast({
-        title: "Copied!",
-        description: `${label} copied to clipboard`,
-      })
-    } catch (err) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed"; // Prevent scrolling to bottom
+      textarea.style.opacity = "0"; // Invisible
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textarea);
+
+      if (successful) {
+        toast({
+          title: "Copied (Fallback)",
+          description: `${label} copied using fallback method`,
+        });
+      } else {
+        throw new Error("Fallback copy failed");
+      }
+    } catch (fallbackErr) {
+      console.error("Fallback also failed:", fallbackErr);
       toast({
         title: "Copy failed",
-        description: "Failed to copy to clipboard",
+        description: "Could not copy to clipboard.",
         variant: "destructive",
-      })
+      });
     }
   }
+};
+
 
   const showApiError = (title: string, message: string) => {
     setApiErrorTitle(title)
@@ -820,7 +874,7 @@ const [showAwsLink, setShowAwsLink] = useState(false); // or true
     </div>
 
     <div className="flex justify-between">
-      <span className="font-medium text-gray-700">Instance Type:</span>
+      <span className="font-medium text-gray-700">Instance:</span>
       <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.instance}</code>
     </div>
 

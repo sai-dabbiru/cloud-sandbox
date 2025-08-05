@@ -12,7 +12,7 @@
       "configuration": {
     "tagname": "<username>",
     "ami" : "Ubuntu",
-    "instance" : "t2-micro or t3-micro",
+    "instance" : "t2-micro or t3-micro or t2-medium",
     "keypair" : "Without Key-pair(default)",
     "vpc" : "training L&D",
     "securitygroup" : "CS_EC2_Demo1_GLX"
