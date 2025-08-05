@@ -8,11 +8,12 @@
       "duration": 3600,
       "region" : "us-east-1",
       "rolearn" : "arn:aws:iam::841162700636:role/CS_EC2_Demo1_GLX",
+      "subnet": "reserve_subnet",
       "configuration": {
     "tagname": "<username>",
-    "ami" : "Amazon linux(Free tier)",
+    "ami" : "Ubuntu",
     "instance" : "t2-micro or t3-micro",
-    "keypair" : "default",
+    "keypair" : "Without Key-pair(default)",
     "vpc" : "training L&D",
     "securitygroup" : "CS_EC2_Demo1_GLX"
 
@@ -21,11 +22,11 @@
     },
     "loadbalancer": {
       "label": "Load Balancer Lab",
-      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/demo-1",
-      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/demo-1",
-      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/demo-1",
+      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/create/ec2-sandbox",
+      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/eks-sandbox",
+      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/eks-sandbox",
       "duration": 3600,
-      "region" : "us-west-1",
+      "region" : "us-east-1",
         "rolearn" : "arn:aws:iam::841162700636:role/CS_EC2_Demo1_GLX",
       "configuration": {
     "tagname": "<username>",
@@ -41,12 +42,12 @@
 
        "EKS": {
       "label": "EKS Lab",
-      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/demo-1",
-      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/demo-1",
-      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/demo-1",
+      "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/create/eks-sandbox",
+      "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/eks-sandbox",
+      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/list/eks-sandbox",
       "duration": 3600,
-        "rolearn" : "arn:aws:iam::841162700636:role/CS_EC2_Demo1_GLX",
-      "region" : "us-west-1",
+        "rolearn" : "arn:aws:iam::841162700636:role/eks_glx",
+      "region" : "us-east-1",
       "configuration": {
     "tagname": "<username>",
     "ami" : "Amazon linux(Free tier)",
@@ -54,6 +55,9 @@
     "keypair" : "default",
     "vpc" : "training L&D",
     "securitygroup" : "CS_EC2_Demo1_GLX"
+
+
+
 
 
     }

@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import labConfig from './labConfig.json'
 
-import EC2 from './EC2'
+
 import {
   Dialog,
   DialogContent,
@@ -70,6 +70,7 @@ interface LabResponse {
 export default function Component({selectedLab} : LabRunnerProps) {
   
   const currentLab = labConfig.labs[selectedLab]
+const [showAwsLink, setShowAwsLink] = useState(false); // or true
 
   const [showUsernameDialog, setShowUsernameDialog] = useState(false)
   const [showEndLabDialog, setShowEndLabDialog] = useState(false)
@@ -842,6 +843,10 @@ export default function Component({selectedLab} : LabRunnerProps) {
       <span className="font-medium text-gray-700">Region:</span>
       <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.region}</code>
     </div>
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">subnet:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">reserve_subnet</code>
+    </div>
   </div>
 </div>
 
@@ -916,7 +921,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
 
                 <Separator />
 
-                <div className="space-y-2">
+                {/* <div className="space-y-2">
                   <h4 className="text-sm font-medium text-gray-700">Configuration Checklist</h4>
                   <div className="space-y-1 text-xs text-gray-600">
                     <div className="flex items-center space-x-2">
@@ -948,7 +953,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
                       <span>Region: {currentLab.region}</span>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {taskCompleted && (
                   <div className="bg-green-50 p-3 rounded-lg">
@@ -1395,40 +1400,49 @@ export default function Component({selectedLab} : LabRunnerProps) {
                   </div>
 
                   <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                    <h4 className="font-semibold text-gray-900 mb-3">Required Configurations:</h4>
+  <h4 className="font-semibold text-gray-900 mb-3">Required Configurations:</h4>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Tag Name:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.tagname}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Machine Image:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.ami}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Instance Type:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.instance}</code>
-                        </div>
-                      </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-sm">
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Tag Name:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.tagname}</code>
+    </div>
 
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Key Pair:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.keypair}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">VPC:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.vpc}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Security Group:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.securitygroup}</code>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Machine Image:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.ami}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Instance Type:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.instance}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Key Pair:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.keypair}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">VPC:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.vpc}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Security Group:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.securitygroup}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Region:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.region}</code>
+    </div>
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">subnet:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">reserve_subnet</code>
+    </div>
+  </div>
+</div>
 
                   <div className="border-l-4 border-blue-500 pl-4">
                     <h4 className="font-semibold text-gray-900 mb-2">4. Review and Launch</h4>
@@ -1499,39 +1513,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
 
                 <Separator />
 
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-gray-700">Configuration Checklist</h4>
-                  <div className="space-y-1 text-xs text-gray-600">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Tag name: {username || "<username>"}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>AMI: {currentLab.configuration.ami} </span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Instance: {currentLab.configuration.instance}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Key pair: {currentLab.configuration.keypair}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>VPC: {currentLab.configuration.vpc}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Security Group: {currentLab.configuration.securitygroup}</span>
-                    </div>
-                      <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Region: {currentLab.region}</span>
-                    </div>
-                  </div>
-                </div>
+               
 
                 {taskCompleted && (
                   <div className="bg-green-50 p-3 rounded-lg">
@@ -1546,7 +1528,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
       </div>
     </div>
     :
-    currentLab.label === "S3 Bucket Lab" ?
+    currentLab.label === "EKS Lab" ?
     <div className="min-h-screen bg-gray-50">
       {/* Username Dialog */}
       <Dialog open={showUsernameDialog} onOpenChange={setShowUsernameDialog}>
@@ -1633,10 +1615,10 @@ export default function Component({selectedLab} : LabRunnerProps) {
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center space-x-2 text-orange-600">
               <Search className="h-5 w-5" />
-              <span>Instance Not Found</span>
+              <span> Not Found</span>
             </AlertDialogTitle>
             <AlertDialogDescription className="space-y-2">
-              <p>No EC2 instance found with the desired configurations.</p>
+              <p>No EKS found with the desired configurations.</p>
               <div className="bg-orange-50 p-3 rounded-lg mt-3">
                 <p className="text-sm text-orange-800">
                   <strong>Please ensure you have:</strong>
@@ -1671,7 +1653,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
                 <div className="text-4xl">🎉</div>
                 <div className="text-lg font-medium text-gray-900">Lab Completed Successfully!</div>
                 <div className="text-sm text-gray-600">
-                  You have successfully created an EC2 instance with the required configurations. Great job on
+                  You have successfully created an EKS cluster with the required configurations. Great job on
                   completing this training lab!
                 </div>
               </div>
@@ -1831,19 +1813,21 @@ export default function Component({selectedLab} : LabRunnerProps) {
                           </Button>
                         </div>
                       </div>
-                      <div className="space-y-1">
-                        <Label className="text-xs text-gray-600">AWS Console URL</Label>
-                        <div className="flex space-x-1">
-                          <Input value={labResponse.signin_url} readOnly className="text-sm" />
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => copyToClipboard(labResponse.signin_url, "Sign-in URL")}
-                          >
-                            <Copy className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </div>
+                      {showAwsLink && (
+  <div className="space-y-1">
+    <Label className="text-xs text-gray-600">AWS Console URL</Label>
+    <div className="flex space-x-1">
+      <Input value={labResponse.signin_url} readOnly className="text-sm" />
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => copyToClipboard(labResponse.signin_url, "Sign-in URL")}
+      >
+        <Copy className="h-3 w-3" />
+      </Button>
+    </div>
+  </div>
+)}
 
                       <Button
                         size="sm"
@@ -1934,9 +1918,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-700">
-                    Create an Amazon EC2 instance with desired configurations following AWS best practices. You will
-                    learn how to launch a virtual server in the cloud with specific settings for a typical web
-                    application deployment.
+                    Create an Amazon EKS cluster with desired configurations following AWS best practices. You will learn how to provision a managed Kubernetes environment in the cloud with specific settings for deploying and managing containerized web applications.
                   </p>
                 </CardContent>
               </Card>
@@ -1950,7 +1932,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <List className="h-5 w-5 text-purple-500" />
-                    <span>Steps to Create S3 Bucket Instance</span>
+                    <span>Steps to Create EKS cluster</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -1963,67 +1945,99 @@ export default function Component({selectedLab} : LabRunnerProps) {
                     </div>
 
                     <div className="border-l-4 border-blue-500 pl-4">
-                      <h4 className="font-semibold text-gray-900 mb-2">2. Navigate to EC2 Service</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2">2. Navigate to EKS Service</h4>
                       <p className="text-sm text-gray-600">
-                        Go to Services → Compute → EC2 or search for "EC2" in the search bar.
+                        Go to Services → Containers → EKS or search for "EKS" in the search bar.
                       </p>
                     </div>
 
                     <div className="border-l-4 border-blue-500 pl-4">
-                      <h4 className="font-semibold text-gray-900 mb-2">3. Launch Instance</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2">3. Create EKS Cluster</h4>
                       <p className="text-sm text-gray-600">
-                        Click "Launch Instance" and configure with the following specifications:
+                       Click on “Add cluster” → “Create” and configure the EKS cluster using the following specifications:
                       </p>
                     </div>
                   </div>
 
                   <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                    <h4 className="font-semibold text-gray-900 mb-3">Required Configurations:</h4>
+  <h4 className="font-semibold text-gray-900 mb-3">Required Configurations:</h4>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Tag Name:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.tagname}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Machine Image:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.ami}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Instance Type:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.instance}</code>
-                        </div>
-                      </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-sm">
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Metadata:</span>
+   <pre className="font-medium text-gray-700">
+  {`name: <username>
+region: us-east-1
+version: "1.29"
+tags:
+Owner: <username>`}
+</pre>
 
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Key Pair:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.keypair}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">VPC:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.vpc}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Security Group:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.securitygroup}</code>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      {/* <code className="bg-white px-2 py-0.5 rounded text-xs"> "name: '<username>'
+  region: us-east-1
+  version: "1.29"
+  tags:
+    Owner: '<username>' " 
+
+    </code> */}
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">iam:</span>
+        <pre className="font-medium text-gray-700">
+  {`serviceRoleARN: 
+  arn:aws:iam::
+  841162700636:role/eks_glx`}
+</pre>
+
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">vpc:</span>
+      <pre className="font-medium text-gray-700">
+  {` id: vpc-026b48c4075c49f80          
+  subnets:
+  public:
+   us-east-1a:
+     id: subnet-04f352b532b7d13d9  
+   us-east-1b:
+     id: subnet-03062d130a90f5ab2  
+  private:
+   us-east-1a:
+     id: subnet-0b570474e34f0da61  
+   us-east-1b:
+     id: subnet-0be8730a548d0dd5d `}
+</pre>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">nodeGroups:</span>
+      <pre className="font-medium text-gray-700">
+  {` - name: ng-<username>
+    instanceType: 
+          t2.medium
+    desiredCapacity: 1
+    privateNetworking: 
+          false `}
+</pre>
+    </div>
+
+  
+   
+  </div>
+</div>
 
                   <div className="border-l-4 border-blue-500 pl-4">
-                    <h4 className="font-semibold text-gray-900 mb-2">4. Review and Launch</h4>
+                    <h4 className="font-semibold text-gray-900 mb-2">4. Review and Create</h4>
                     <p className="text-sm text-gray-600">
-                      Review all configurations and click "Launch Instance" to create your EC2 instance.
+                      Review all cluster settings carefully and click “Create” to initiate the provisioning of the EKS cluster.
                     </p>
                   </div>
 
                   <div className="border-l-4 border-blue-500 pl-4">
-                    <h4 className="font-semibold text-gray-900 mb-2">5. Verify Instance</h4>
+                    <h4 className="font-semibold text-gray-900 mb-2">5. Verify cluster</h4>
                     <p className="text-sm text-gray-600">
-                      Check the EC2 dashboard to confirm your instance is running successfully.
+                      Once the cluster is created, click the “Test Instance” button (or verify via kubectl if CLI access is enabled) to ensure the cluster is up and running.
                     </p>
                   </div>
 
@@ -2066,9 +2080,9 @@ export default function Component({selectedLab} : LabRunnerProps) {
                   <div className="flex items-start space-x-3 p-3 rounded-lg border">
                     <Checkbox checked={taskCompleted} disabled className="mt-1" />
                     <div className="flex-1">
-                      <h4 className="text-sm font-medium text-gray-900">Create EC2 Instance</h4>
+                      <h4 className="text-sm font-medium text-gray-900">Create EKS Cluster</h4>
                       <p className="text-xs text-gray-500 mt-1">
-                        Configure and launch an EC2 instance with the specified requirements
+                        Create and configure the EKS cluster using the following specifications:
                       </p>
                       {taskCompleted && (
                         <div className="flex items-center space-x-1 mt-2">
@@ -2082,39 +2096,7 @@ export default function Component({selectedLab} : LabRunnerProps) {
 
                 <Separator />
 
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-gray-700">Configuration Checklist</h4>
-                  <div className="space-y-1 text-xs text-gray-600">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Tag name: {username || "<username>"}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>AMI: {currentLab.configuration.ami}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Instance: {currentLab.configuration.instance}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Key pair: {currentLab.configuration.keypair}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>VPC: {currentLab.configuration.vpc}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Security Group: {currentLab.configuration.securitygroup}</span>
-                    </div>
-                         <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Region: {currentLab.region}</span>
-                    </div>
-                  </div>
-                </div>
+            
 
                 {taskCompleted && (
                   <div className="bg-green-50 p-3 rounded-lg">
@@ -2560,41 +2542,50 @@ export default function Component({selectedLab} : LabRunnerProps) {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                    <h4 className="font-semibold text-gray-900 mb-3">Required Configurations:</h4>
+                 <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+  <h4 className="font-semibold text-gray-900 mb-3">Required Configurations:</h4>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Tag Name:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.tagname}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Machine Image:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.ami}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Instance Type:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.instance}</code>
-                        </div>
-                      </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-sm">
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Tag Name:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.tagname}</code>
+    </div>
 
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Key Pair:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.keypair}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">VPC:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.vpc}</code>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="font-medium text-gray-700">Security Group:</span>
-                          <code className="bg-white px-2 py-1 rounded text-xs">{currentLab.configuration.securitygroup}</code>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Machine Image:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.ami}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Instance Type:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.instance}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Key Pair:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.keypair}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">VPC:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.vpc}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Security Group:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.configuration.securitygroup}</code>
+    </div>
+
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">Region:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">{currentLab.region}</code>
+    </div>
+    <div className="flex justify-between">
+      <span className="font-medium text-gray-700">subnet:</span>
+      <code className="bg-white px-2 py-0.5 rounded text-xs">reserve_subnet</code>
+    </div>
+  </div>
+</div>
 
                   <div className="border-l-4 border-blue-500 pl-4">
                     <h4 className="font-semibold text-gray-900 mb-2">4. Review and Launch</h4>
@@ -2664,40 +2655,8 @@ export default function Component({selectedLab} : LabRunnerProps) {
                 </div>
 
                 <Separator />
-
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-gray-700">Configuration Checklist</h4>
-                  <div className="space-y-1 text-xs text-gray-600">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Tag name: {username || "<username>"}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>AMI: {currentLab.configuration.ami}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Instance: {currentLab.configuration.instance}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Key pair: {currentLab.configuration.keypair}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>VPC: {currentLab.configuration.vpc}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Security Group: {currentLab.configuration.securitygroup}</span>
-                    </div>
-                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full bg-blue-500" />
-                      <span>Region: {currentLab.region}</span>
-                    </div>
-                  </div>
-                </div>
+         
+          
 
                 {taskCompleted && (
                   <div className="bg-green-50 p-3 rounded-lg">
