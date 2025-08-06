@@ -340,6 +340,45 @@ const [showAwsLink, setShowAwsLink] = useState(false); // or true
     }
   }
 
+
+  
+  const handleCheckProgramEKS = async () => {
+    setIsCheckingProgram(true)
+
+    try {
+      const response = await fetch(currentLab.checkUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.text().catch(() => "Unknown error")
+        throw new Error(`Failed to check program: ${response.status} - ${errorData}`)
+      }
+
+      const result = await response.json()
+
+      if (result === true || result.success === true) {
+        // Instance found - complete the task
+        setTaskCompleted(true)
+        setShowCongratulationsDialog(true)
+      } else {
+        // Instance not found - show error dialog
+        setShowNoInstanceDialog(true)
+      }
+    } catch (error) {
+      console.error("Error checking program:", error)
+      const errorMessage = error instanceof Error ? error.message : "Failed to check program. Please try again."
+      showApiError("Error Checking Program", errorMessage)
+    } finally {
+      setIsCheckingProgram(false)
+    }
+  }
   const handleCongratulationsClose = async () => {
     setShowCongratulationsDialog(false)
 
@@ -1678,12 +1717,12 @@ const [showAwsLink, setShowAwsLink] = useState(false); // or true
                   <strong>Please ensure you have:</strong>
                 </p>
                 <ul className="text-sm text-orange-700 mt-2 space-y-1 list-disc list-inside">
-                  <li>Created an EC2 instance in the AWS Console</li>
+                  <li>Created and configured an EKS cluster in the AWS Console</li>
                   <li>
-                    Tagged the instance with Name: <code className="bg-white px-1 rounded">{username}</code>
+                    Verified the cluster with username: <code className="bg-white px-1 rounded">{username}</code>
                   </li>
-                  <li>Used the specified configurations (Amazon Linux, t2.micro/t3.micro, etc.)</li>
-                  <li>Waited for the instance to be in "running" state</li>
+                  
+                 
                 </ul>
               </div>
             </AlertDialogDescription>
@@ -2098,7 +2137,7 @@ Owner: <username>`}
                   {labStarted && !taskCompleted && (
                     <div className="pt-4">
                       <Button
-                        onClick={handleCheckProgram}
+                        onClick={handleCheckProgramEKS}
                         disabled={isCheckingProgram}
                         size="lg"
                         className="w-full bg-green-600 hover:bg-green-700"

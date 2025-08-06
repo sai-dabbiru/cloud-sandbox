@@ -44,9 +44,9 @@
       "label": "EKS Lab",
       "startUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/create/eks-sandbox",
       "deleteUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/delete/eks-sandbox",
-      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/list/eks-sandbox",
+      "checkUrl": "https://s3b455p78l.execute-api.us-east-1.amazonaws.com/list/eks-sandbox",
       "duration": 3600,
-        "rolearn" : "arn:aws:iam::841162700636:role/eks_glx",
+        "rolearn" : "arn:aws:iam::841162700636:role/EKSClusterCreatorRole_glx",
       "region" : "us-east-1",
       "configuration": {
     "tagname": "<username>",
